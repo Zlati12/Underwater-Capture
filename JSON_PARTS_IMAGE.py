@@ -11,7 +11,7 @@ from firebase_admin import credentials, storage
 import requests
 from datetime import datetime, timedelta
 
-API_search = "TRUE"
+API_search = "FALSE"
 
 # Initialize Firebase Admin SDK with service account key file
 cred = credentials.Certificate('./underwater-capture-a4325-firebase-adminsdk-ea2lo-60515c0d0b.json')  # Path to your service account key file
@@ -64,26 +64,39 @@ if __name__ == '__main__':
                 all_json = str(result_tuple)
                 all_json = all_json[2:]
                 head, sep, tail = all_json.partition("'")
-                print(head)
+            elif API_search == "FALSE":
+                head = "https://serpapi.com/searches/1cfe6ae7a633dcdc/65f438925b54eff485cbef38.json"
 
-                with urllib.request.urlopen(head) as url:
-                    data = json.load(url)
-                    # print(data.keys())
-                    search_results = data["visual_matches"]
-                    # print(search_results)
-                    # Aggregate all titles
-                    all_titles = ""
-                    for result in search_results:
-                        title = result["title"]
-                        # print(title)
-                        all_titles = all_titles + " " + title
+            print(head)
+            with urllib.request.urlopen(head) as url:
+                data = json.load(url)
+                # print(data.keys())
+                search_results = data["visual_matches"]
+                # print(search_results)
+                # Aggregate all titles
+                all_titles = ""
+                for result in search_results:
+                    title = result["title"]
+                    # print(title)
+                    all_titles = all_titles + " " + title
                     # remove some punctuation
-                    mapping_table = str.maketrans("/\,;.:-?!()[]{}-|#", "                  ")
-                    all_titles = all_titles.translate(mapping_table)
-                    # print(all_titles)
+                mapping_table = str.maketrans("/\,;.:-?!()[]{}-|#", "                  ")
+                all_titles = all_titles.translate(mapping_table)
+                all_titles = all_titles.lower()
+                # print(all_titles)
                 # search for most common phrases
 
                 tokens = word_tokenize(all_titles)
+                print(tokens)
+
+
+                #remove words like in out etc not to appear in most common
+                nonsense_words = ["in","out","on","off","top","a","turn","into","of","some","for","the","who","what","-","that", "can","this","1","2","3","4","5","6","7","8","9","0","now" ]
+                for word in nonsense_words:
+                    tokens = list(filter(word.__ne__, tokens))
+                print(tokens)
+
+
                 phrases_1 = ngrams(tokens, 1)  # different phrase lengths
                 phrases_2 = ngrams(tokens, 2)
                 phrases_3 = ngrams(tokens, 3)
@@ -93,6 +106,7 @@ if __name__ == '__main__':
                 phrase_freq_3 = Counter(phrases_3)
                 phrase_freq_4 = Counter(phrases_4)
 
+                print("\n")
                 print("\n")
                 # get (and print) the prases
                 set1 = phrase_freq_1.most_common(10)
@@ -132,10 +146,6 @@ if __name__ == '__main__':
                 print(type(test))
 
 
-            elif API_search != "TRUE":
-                result = "https://serpapi.com/searches/bf5a651057384d38/65f3791a9c449d64a058f72d.json" #json za kotka
-                print("JSON for cat: ", end = '')
-                print(result)
             # read the JSON result from API search
 
 
