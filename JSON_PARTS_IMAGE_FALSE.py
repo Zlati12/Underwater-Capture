@@ -1,3 +1,4 @@
+
 import urllib
 from nltk.tokenize import word_tokenize
 from nltk.util import ngrams
@@ -53,7 +54,7 @@ if __name__ == '__main__':
             params = {
                 "engine": "google_lens",
                 "url": url,
-                "api_key": "1c30a28aeef79af32f40a9f5eeb4bb35a66cd0b3de65d731e00a4be32420966e"
+                "api_key": "684a70bb30d8e232062576c6881429981a99ece0d28d8301b5b9b313d865b8b0"
             }
             # don't waste the API searches unless needed
             if API_search == "TRUE":
@@ -92,7 +93,7 @@ if __name__ == '__main__':
 
 
                 #remove words like in out etc not to appear in most common
-                nonsense_words = ["in","out","on","off","top","at","a","turn","into","of","some","for","the","who","what","-","that", "can","this","1","2","3","4","5","6","7","8","9","0","now" ]
+                nonsense_words = ["in","and","background","as","we","us","images","image","out","on","off","top","at","a","turn","into","of","some","for","the","who","what","-","that", "can","this","1","2","3","4","5","6","7","8","9","0","now" ]
                 for word in nonsense_words:
                     tokens = list(filter(word.__ne__, tokens))
                 # print(tokens)
@@ -109,9 +110,9 @@ if __name__ == '__main__':
 
                 # get (and print) the prases
                 set1 = phrase_freq_1.most_common(10)
-                set2 = phrase_freq_2.most_common(7)
-                set3 = phrase_freq_3.most_common(4)
-                set4 = phrase_freq_4.most_common(3)
+                set2 = phrase_freq_2.most_common(8)
+                set3 = phrase_freq_3.most_common(3)
+                set4 = phrase_freq_4.most_common(2)
                 set = set1 + set2 + set3 + set4
 
                 # dictionary of phrases
@@ -127,7 +128,7 @@ if __name__ == '__main__':
                         for entry2 in set2:
                             phrase2 = entry2[0]
                             if phrase2 <= phrase3:
-                                Dict[phrase2] += 20
+                                Dict[phrase2] += 25
                             for entry1 in set1:
                                 phrase1 = entry1[0]
                                 if phrase1 <= phrase2:
@@ -140,7 +141,7 @@ if __name__ == '__main__':
                         max_word = key
 
                 print("")
-                print("Image recognition from saved bluehead JSON:")
+                print("Image recognition from google lens:")
                 print(max_word)
                 print("")
 
