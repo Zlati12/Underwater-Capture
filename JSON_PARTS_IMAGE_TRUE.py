@@ -93,7 +93,7 @@ if __name__ == '__main__':
 
 
                 #remove words like in out etc not to appear in most common
-                nonsense_words = ["in","and","background","as","we","us","images","image","out","on","off","top","at","a","turn","into","of","some","for","the","who","what","-","that", "can","this","1","2","3","4","5","6","7","8","9","0","now" ]
+                nonsense_words = ["in","and","background","as","with","pmg","e","we","us","images","image","out","on","off","top","at","a","turn","into","of","some","for","the","who","what","-","that", "can","this","1","2","3","4","5","6","7","8","9","0","now" ]
                 for word in nonsense_words:
                     tokens = list(filter(word.__ne__, tokens))
                 # print(tokens)
